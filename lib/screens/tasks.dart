@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:todo/component/task_list.dart';
 import 'package:todo/component/add_task.dart';
+import 'package:todo/models/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/models/task_data.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
+  const TasksScreen({super.key});
+
+  @override
+  State<TasksScreen> createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  List<Task> tasks = [Task("go to cinima")];
   late bool isDone;
-  Widget buildButtomSheet(BuildContext context) {
-    return AddTask();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +23,10 @@ class TasksScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlueAccent,
         onPressed: () {
-          showModalBottomSheet(context: context, builder: buildButtomSheet);
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => AddTask(),
+          );
         },
         child: Icon(Icons.add, color: Colors.white),
       ),
@@ -40,7 +51,10 @@ class TasksScreen extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                Text("12 tasks", style: TextStyle(color: Colors.white)),
+                Text(
+                  "${Provider.of<TaskData>(context).tasks.length} tasks",
+                  style: TextStyle(color: Colors.white),
+                ),
               ],
             ),
           ),

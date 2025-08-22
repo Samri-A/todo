@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/models/task_data.dart';
 
 class AddTask extends StatefulWidget {
-  const AddTask({super.key});
-
   @override
   State<AddTask> createState() => _AddTaskState();
 }
 
 class _AddTaskState extends State<AddTask> {
   late String task_;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,8 +32,20 @@ class _AddTaskState extends State<AddTask> {
                 style: TextStyle(fontSize: 25, color: Colors.blue),
               ),
               SizedBox(height: 30),
-              TextField(autofocus: true, textAlign: TextAlign.center),
-              TextButton(onPressed: () {}, child: Text("Add")),
+              TextField(
+                autofocus: true,
+                textAlign: TextAlign.center,
+                onChanged: (newtext) {
+                  task_ = newtext;
+                },
+              ),
+              TextButton(
+                onPressed: () {
+                  Provider.of<TaskData>(context).change(task_);
+                  Navigator.pop(context);
+                },
+                child: Text("Add"),
+              ),
             ],
           ),
         ),
